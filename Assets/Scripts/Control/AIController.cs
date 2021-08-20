@@ -58,7 +58,6 @@ namespace RPG.Control
         {
             if (timeSinceLastSawPlayer < suspicionTime)
             {
-                // be suspicious
                 GetComponent<ActionScheduler>().CancelCurrentAction();
                 return true;
             }
