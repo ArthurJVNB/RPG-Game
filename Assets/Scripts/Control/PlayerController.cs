@@ -48,7 +48,7 @@ namespace RPG.Control
                 // Minha forma de raciocinar:
                 if (hit.transform.TryGetComponent<CombatTarget>(out CombatTarget target) && fighter.CanAttack(target.gameObject))
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButton(0))
                     {
                         fighter.Attack(target.gameObject);
                     }

@@ -15,6 +15,7 @@ namespace RPG.Combat
         private Animator animator;
         private Health target;
         private float timeSinceLastAttack = Mathf.Infinity;
+        private float currentSpeedFraction;
 
         private bool IsInRange
         {
@@ -33,9 +34,10 @@ namespace RPG.Combat
         }
 
 
-        public void Attack(GameObject target)
+        public void Attack(GameObject target, float speedFraction = 1)
         {
             scheduler.StartAction(this);
+            currentSpeedFraction = speedFraction;
             this.target = target.GetComponent<Health>();
         }
 
@@ -66,7 +68,7 @@ namespace RPG.Combat
             }
             else
             {
-                mover.MoveTo(target.transform.position);
+                mover.MoveTo(target.transform.position, currentSpeedFraction);
             }
         }
 

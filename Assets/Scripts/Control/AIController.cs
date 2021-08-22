@@ -5,6 +5,7 @@ using RPG.Combat;
 using RPG.Movement;
 using System;
 using RPG.Core;
+using UnityEngine.AI;
 
 namespace RPG.Control
 {
@@ -14,15 +15,25 @@ namespace RPG.Control
         [SerializeField] private float suspicionTime = 5f;
         [SerializeField] private PatrolPath patrolPath;
         [SerializeField] private float waypointDistanceTolerance = 0.3f;
+        [SerializeField] private float waypointDwellTime = 10f;
+        [Range(0, 1)]
+        [SerializeField] private float patrolSpeedFraction = 0.27f;
+        [Range(0, 1)]
+        [SerializeField] private float chaseSpeedFraction = 0.8f;
+        // [SerializeField] private float walkingSpeed = 1.558f;
+        // [SerializeField] private float runningSpeed = 4.4f;
+
 
         private GameObject player;
         private Fighter fighter;
         private Mover mover;
+        private NavMeshAgent agent;
 
         #region AI Memory
         private Vector3 guardPosition;
         private int currentWaypointIndex = -1;
         private float timeSinceLastSawPlayer = Mathf.Infinity;
+        private float timeGuardingAtWaypoint = Mathf.Infinity;
         #endregion
 
         private bool InChaseDistanceOfPlayer
@@ -38,6 +49,7 @@ namespace RPG.Control
             player = GameObject.FindWithTag("Player");
             fighter = GetComponent<Fighter>();
             mover = GetComponent<Mover>();
+            agent = GetComponent<NavMeshAgent>();
 
             guardPosition = transform.position;
         }
@@ -55,6 +67,7 @@ namespace RPG.Control
         private void UpdateTimers()
         {
             timeSinceLastSawPlayer += Time.deltaTime;
+            // timeGuardingAtWaypoint += Time.deltaTime;
         }
 
         private bool BehaveInCombat()
@@ -62,7 +75,8 @@ namespace RPG.Control
             if (InChaseDistanceOfPlayer && fighter.CanAttack(player))
             {
                 timeSinceLastSawPlayer = 0;
-                fighter.Attack(player);
+                // agent.speed = runningSpeed;
+                fighter.Attack(player, chaseSpeedFraction);
                 return true;
             }
 
@@ -88,12 +102,21 @@ namespace RPG.Control
             {
                 if (AtWaypoint())
                 {
-                    CycleWaypoint();
+                    if (timeGuardingAtWaypoint > waypointDwellTime)
+                    {
+                        CycleWaypoint();
+                        timeGuardingAtWaypoint = 0;
+                    }
+                    else
+                    {
+                        timeGuardingAtWaypoint += Time.deltaTime;
+                    }
                 }
                 nextPosition = GetCurrentWaypoint();
             }
 
-            mover.StartMoveAction(nextPosition);
+            // agent.speed = walkingSpeed;
+            mover.StartMoveAction(nextPosition, patrolSpeedFraction);
             return true;
         }
 

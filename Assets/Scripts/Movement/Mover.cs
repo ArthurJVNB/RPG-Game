@@ -9,21 +9,23 @@ namespace RPG.Movement
     public class Mover : MonoBehaviour, IAction
     {
         [SerializeField] private Transform target;
+        [SerializeField] private float maxSpeed = 5.662f;
 
         private NavMeshAgent agent;
         private Animator animator;
         private ActionScheduler scheduler;
         private Health health;
 
-        public void StartMoveAction(Vector3 destination)
+        public void StartMoveAction(Vector3 destination, float speedFraction = 1)
         {
             scheduler.StartAction(this);
-            MoveTo(destination);
+            MoveTo(destination, speedFraction);
         }
 
-        public void MoveTo(Vector3 destination)
+        public void MoveTo(Vector3 destination, float speedFraction = 1)
         {
             agent.destination = destination;
+            agent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
             agent.isStopped = false;
         }
 
