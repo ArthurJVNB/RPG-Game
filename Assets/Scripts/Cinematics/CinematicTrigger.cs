@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 
 namespace RPG.Cinematics
 {
+    [RequireComponent(typeof(PlayableDirector))]
     public class CinematicTrigger : MonoBehaviour
     {
         [SerializeField] bool triggerOnce = true;
