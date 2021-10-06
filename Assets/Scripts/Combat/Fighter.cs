@@ -4,18 +4,21 @@ using RPG.Core;
 
 namespace RPG.Combat
 {
+    [RequireComponent(typeof(Mover))]
+    [RequireComponent(typeof(ActionScheduler))]
+    [RequireComponent(typeof(Animator))]
     public class Fighter : MonoBehaviour, IAction
     {
-        [SerializeField] private float weaponRange = 2f;
-        [SerializeField] private float weaponCooldown = 0.8f;
-        [SerializeField] private float weaponDamage = 5f;
+        [SerializeField] float weaponRange = 2f;
+        [SerializeField] float weaponCooldown = 0.8f;
+        [SerializeField] float weaponDamage = 5f;
 
-        private Mover mover;
-        private ActionScheduler scheduler;
-        private Animator animator;
-        private Health target;
-        private float timeSinceLastAttack = Mathf.Infinity;
-        private float currentSpeedFraction;
+        Mover mover;
+        ActionScheduler scheduler;
+        Animator animator;
+        Health target;
+        float timeSinceLastAttack = Mathf.Infinity;
+        float currentSpeedFraction;
 
         private bool IsInRange
         {
@@ -23,28 +26,6 @@ namespace RPG.Combat
             {
                 return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
             }
-        }
-
-        public bool CanAttack(GameObject gameObject)
-        {
-            if (gameObject == null) return false;
-
-            Health targetToTest = gameObject.GetComponent<Health>();
-            return targetToTest != null && !targetToTest.IsDead;
-        }
-
-
-        public void Attack(GameObject target, float speedFraction = 1)
-        {
-            scheduler.StartAction(this);
-            currentSpeedFraction = speedFraction;
-            this.target = target.GetComponent<Health>();
-        }
-
-        public void Cancel()
-        {
-            target = null;
-            StopAttackAnimation();
         }
 
         private void Start()
@@ -70,6 +51,29 @@ namespace RPG.Combat
             {
                 mover.MoveTo(target.transform.position, currentSpeedFraction);
             }
+        }
+
+        public bool CanAttack(GameObject gameObject)
+        {
+            if (gameObject == null) return false;
+
+            Health targetToTest = gameObject.GetComponent<Health>();
+            return targetToTest != null && !targetToTest.IsDead;
+        }
+
+
+        public void Attack(GameObject target, float speedFraction = 1)
+        {
+            scheduler.StartAction(this);
+            currentSpeedFraction = speedFraction;
+            this.target = target.GetComponent<Health>();
+        }
+
+        public void Cancel()
+        {
+            target = null;
+            mover.Cancel();
+            StopAttackAnimation();
         }
 
         private void AttackBehaviour()

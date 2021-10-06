@@ -6,6 +6,10 @@ using RPG.Core;
 
 namespace RPG.Movement
 {
+    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(ActionScheduler))]
+    [RequireComponent(typeof(Health))]
     public class Mover : MonoBehaviour, IAction
     {
         [SerializeField] private Transform target;
@@ -15,6 +19,20 @@ namespace RPG.Movement
         private Animator animator;
         private ActionScheduler scheduler;
         private Health health;
+
+        private void Start()
+        {
+            agent = GetComponent<NavMeshAgent>();
+            animator = GetComponent<Animator>();
+            scheduler = GetComponent<ActionScheduler>();
+            health = GetComponent<Health>();
+        }
+
+        private void Update()
+        {
+            agent.enabled = !health.IsDead;
+            UpdateAnimator();
+        }
 
         public void StartMoveAction(Vector3 destination, float speedFraction = 1)
         {
@@ -32,20 +50,6 @@ namespace RPG.Movement
         public void Cancel()
         {
             agent.isStopped = true;
-        }
-
-        private void Start()
-        {
-            agent = GetComponent<NavMeshAgent>();
-            animator = GetComponent<Animator>();
-            scheduler = GetComponent<ActionScheduler>();
-            health = GetComponent<Health>();
-        }
-
-        private void Update()
-        {
-            agent.enabled = !health.IsDead;
-            UpdateAnimator();
         }
 
         private void UpdateAnimator()
