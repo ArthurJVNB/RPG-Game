@@ -1977,11 +1977,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4590087049251613457, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
       propertyPath: m_Name
-      value: Portal
+      value: South Portal
       objectReference: {fileID: 0}
     - target: {fileID: 4590087049251613460, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4590087049251613460, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2030,6 +2030,10 @@ PrefabInstance:
     - target: {fileID: 4590087049251613462, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
       propertyPath: toId
       value: 1001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590087049251613462, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
+      propertyPath: destination
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4590087049251613462, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
       propertyPath: sceneToLoad
@@ -2738,11 +2742,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4590087049251613457, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
       propertyPath: m_Name
-      value: Portal (1)
+      value: North Portal
       objectReference: {fileID: 0}
     - target: {fileID: 4590087049251613460, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4590087049251613460, guid: 1c92b56a4059fbc489d35be9351a0c0a, type: 3}
       propertyPath: m_LocalPosition.x

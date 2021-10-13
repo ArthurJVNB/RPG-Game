@@ -100,7 +100,10 @@ namespace RPG.Combat
             animator.ResetTrigger("attack");
         }
 
+
         // Animation Event
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remover membros privados não utilizados",
+            Justification = "<Esse método é chamado pelo sistema de eventos da Animação>")]
         private void Hit()
         {
             if (!target) return;
