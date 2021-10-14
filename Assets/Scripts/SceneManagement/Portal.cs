@@ -14,6 +14,9 @@ namespace RPG.SceneManagement
             SouthGate
         }
 
+        public static Action onStartedLoading;
+        public static Action onFinishedLoading;
+
         [SerializeField] UnityEngine.Object sceneToLoad;
         [SerializeField] Transform spawnPoint;
         [Tooltip("Where this portal leads.")]
@@ -44,6 +47,8 @@ namespace RPG.SceneManagement
 
         private IEnumerator LoadSceneRoutine()
         {
+            onStartedLoading?.Invoke();
+
             transform.SetParent(null, false);
             DontDestroyOnLoad(gameObject);
             
@@ -52,6 +57,7 @@ namespace RPG.SceneManagement
             GetDestinationPortal();
             UpdatePlayer();
 
+            onFinishedLoading?.Invoke();
             Destroy(gameObject);
         }
 
