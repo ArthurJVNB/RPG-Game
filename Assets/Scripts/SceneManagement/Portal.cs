@@ -21,6 +21,10 @@ namespace RPG.SceneManagement
         [SerializeField] Transform spawnPoint;
         [Tooltip("Where this portal leads.")]
         [SerializeField] DestinationIdentifier destination;
+        [Header("Fade properties")]
+        [SerializeField] float fadeInTime = 1f;
+        [SerializeField] float fadeWaitTime = .25f;
+        [SerializeField] float fadeOutTime = 1f;
 
         Portal otherPortal;
 
@@ -51,11 +55,16 @@ namespace RPG.SceneManagement
 
             transform.SetParent(null, false);
             DontDestroyOnLoad(gameObject);
-            
-            yield return SceneManager.LoadSceneAsync(sceneToLoad.name);
 
+            Fader fader = FindObjectOfType<Fader>();
+            yield return StartCoroutine(fader.FadeInRoutine(fadeInTime));
+
+            yield return SceneManager.LoadSceneAsync(sceneToLoad.name);
             GetDestinationPortal();
             UpdatePlayer();
+
+            yield return new WaitForSeconds(fadeWaitTime);
+            yield return StartCoroutine(fader.FadeOutRoutine(fadeOutTime));
 
             onFinishedLoading?.Invoke();
             Destroy(gameObject);

@@ -157,7 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c66061c72b27740b28b64e9e29a50b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeTime: 1
+  fadeInTime: 0.5
+  fadeOutTime: 1
 --- !u!222 &2873752425460718119
 CanvasRenderer:
   m_ObjectHideFlags: 0

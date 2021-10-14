@@ -9,56 +9,48 @@ namespace RPG.SceneManagement
     [RequireComponent(typeof(CanvasGroup))]
     public class Fader : MonoBehaviour
     {
-        [SerializeField] float fadeTime = 1f;
-
         CanvasGroup canvasGroup;
-        Scene originalScene;
 
         private void Awake()
         {
             canvasGroup = GetComponent<CanvasGroup>();
-            originalScene = SceneManager.GetActiveScene();
         }
 
-        private void OnEnable() => Portal.onStartedLoading += StartFade;
+        //public void StartFade()
+        //{
+        //    StartCoroutine(FadeRoutine());
+        //}
 
-        private void OnDisable() => Portal.onStartedLoading -= StartFade;
+        //private IEnumerator FadeRoutine()
+        //{
+        //    transform.SetParent(null, false);
+        //    DontDestroyOnLoad(gameObject);
 
-        private void StartFade()
-        {
-            StartCoroutine(FadeRoutine());
-        }
+        //    canvasGroup.alpha = 0;
 
-        private IEnumerator FadeRoutine()
-        {
-            transform.SetParent(null, false);
-            DontDestroyOnLoad(gameObject);
+        //    yield return FadeInRoutine();
+        //    yield return FadeOutRoutine();
 
-            canvasGroup.alpha = 0;
+        //    Destroy(gameObject);
+        //}
 
-            yield return FadeInRoutine();
-            yield return FadeOutRoutine();
-
-            Destroy(gameObject);
-        }
-
-        private IEnumerator FadeInRoutine()
+        public IEnumerator FadeInRoutine(float time)
         {
             print("Started to fade in.");
             while (canvasGroup.alpha < 1)
             {
-                canvasGroup.alpha += Time.deltaTime / fadeTime;
+                canvasGroup.alpha += Time.deltaTime / time;
                 yield return null;
             }
             print("Ended fade in.");
         }
 
-        private IEnumerator FadeOutRoutine()
+        public IEnumerator FadeOutRoutine(float time)
         {
             print("Started to fade out.");
             while (canvasGroup.alpha > 0)
             {
-                canvasGroup.alpha -= Time.deltaTime / fadeTime;
+                canvasGroup.alpha -= Time.deltaTime / time;
                 yield return null;
             }
             print("Ended fade out.");
