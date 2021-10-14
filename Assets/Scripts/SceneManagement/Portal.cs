@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ namespace RPG.SceneManagement
             SouthGate
         }
 
-        [SerializeField] Object sceneToLoad;
+        [SerializeField] UnityEngine.Object sceneToLoad;
         [SerializeField] Transform spawnPoint;
         [Tooltip("Where this portal leads.")]
         [SerializeField] DestinationIdentifier destination;
@@ -31,6 +32,7 @@ namespace RPG.SceneManagement
             }
         }
 
+        // Old
         //private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         //{
         //    SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -40,9 +42,9 @@ namespace RPG.SceneManagement
         //    player.transform.rotation = spawnPoint.rotation;
         //}
 
-        IEnumerator LoadSceneRoutine()
+        private IEnumerator LoadSceneRoutine()
         {
-            transform.parent = null;
+            transform.SetParent(null, false);
             DontDestroyOnLoad(gameObject);
             
             yield return SceneManager.LoadSceneAsync(sceneToLoad.name);

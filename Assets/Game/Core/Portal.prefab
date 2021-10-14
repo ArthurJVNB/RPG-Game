@@ -60,6 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneToLoad: {fileID: 0}
   spawnPoint: {fileID: 6810842154586115964}
+  destination: 0
 --- !u!1 &8203669917377124864
 GameObject:
   m_ObjectHideFlags: 0
